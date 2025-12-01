@@ -26,8 +26,8 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 50% 20%, rgba(220, 120, 255, 0.15), transparent 55%),
-        radial-gradient(circle at 10% 80%, rgba(170, 255, 210, 0.2), transparent 50%);
+        radial-gradient(circle at 50% 20%, rgba(120, 230, 255, 0.18), transparent 60%),
+        radial-gradient(circle at 10% 80%, rgba(140, 255, 210, 0.2), transparent 55%);
       pointer-events: none;
     }
 
@@ -36,7 +36,7 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 140px;
+      height: 150px;
       background:
         linear-gradient(to top, #014b09, #047c15 45%, transparent 100%);
       overflow: hidden;
@@ -62,49 +62,112 @@
       height: 100%;
     }
 
-    /* Orchid “flowers” */
-    .orchid {
+    /* WORD & LETTER LAYOUT */
+    .word {
       position: absolute;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 30% 30%, #ffe9ff 0, #ffd6ff 18%, #d94cff 60%, #7a1ab0 100%);
-      box-shadow:
-        0 0 12px rgba(231, 186, 255, 0.9),
-        0 0 22px rgba(231, 186, 255, 0.6);
-      transform: scale(0);
-      opacity: 0;
-      animation: bloom 2.2s ease-out forwards;
+      top: 34%;               /* move letters up/down */
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 34px;
     }
 
-    @keyframes bloom {
+    .letter {
+      position: relative;
+      width: 90px;
+      height: 120px;
+    }
+
+    .orchid {
+      --delay: 0s;
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 30% 30%, #fdfff5 0, #f5ffe3 18%, #9df7d5 55%, #3fb89b 100%);
+      box-shadow:
+        0 0 14px rgba(149, 255, 214, 0.9),
+        0 0 26px rgba(149, 255, 214, 0.6);
+      top: calc(var(--y) * 22px);
+      left: calc(var(--x) * 22px);
+      transform: translateY(220px) scale(0);   /* start down in the grass */
+      transform-origin: center bottom;
+      opacity: 0;
+      animation: flowerRise 2.4s ease-out forwards;
+      animation-delay: var(--delay);
+    }
+
+    /* Stem for each orchid */
+    .orchid::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -220px; /* reach down to the grass */
+      transform: translateX(-50%) scaleY(0);
+      transform-origin: bottom;
+      width: 4px;
+      height: 230px;
+      background: linear-gradient(to top, #0b5a37, #47e8b0);
+      border-radius: 999px;
+      box-shadow: 0 0 10px rgba(110, 255, 195, 0.5);
+      animation: stemGrow 2.4s ease-out forwards;
+      animation-delay: var(--delay);
+    }
+
+    /* Little glowing pollen dots above some flowers (optional) */
+    .orchid::after {
+      content: "";
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      width: 6px;
+      height: 6px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffaa 0, #ffef77 70%, transparent 100%);
+      opacity: 0;
+      animation: pollen 1.2s ease-in-out infinite alternate;
+      animation-delay: calc(var(--delay) + 1.6s);
+    }
+
+    @keyframes stemGrow {
+      0%   { transform: translateX(-50%) scaleY(0); opacity: 0; }
+      40%  { opacity: 1; }
+      100% { transform: translateX(-50%) scaleY(1); opacity: 1; }
+    }
+
+    @keyframes flowerRise {
       0% {
-        transform: scale(0);
+        transform: translateY(220px) scale(0.2);
         opacity: 0;
       }
-      60% {
-        transform: scale(1.2);
+      50% {
+        transform: translateY(40px) scale(0.8);
         opacity: 1;
       }
       100% {
-        transform: scale(1);
+        transform: translateY(0) scale(1);
         opacity: 1;
       }
     }
 
-    /* Soft name glow that appears AFTER the orchids */
+    @keyframes pollen {
+      from { opacity: 0; transform: translateX(-50%) translateY(0); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(-6px); }
+    }
+
     .name-outline {
       position: absolute;
       width: 100%;
       text-align: center;
-      top: 40%;
+      top: 57%;
       font-size: 4rem;
       letter-spacing: 0.25rem;
-      color: rgba(255, 204, 255, 0.12);
+      color: rgba(195, 255, 235, 0.12);
       text-shadow:
-        0 0 14px rgba(255, 170, 255, 0.6),
-        0 0 20px rgba(190, 120, 255, 0.4);
+        0 0 14px rgba(149, 255, 214, 0.6),
+        0 0 20px rgba(120, 230, 255, 0.4);
       opacity: 0;
       animation: nameAppear 3s ease-out forwards;
       animation-delay: 3s;
@@ -129,12 +192,12 @@
       position: absolute;
       width: 100%;
       text-align: center;
-      top: calc(40% + 4rem);
-      font-size: 1.1rem;
-      color: #f6e9ff;
+      top: 66%;
+      font-size: 1.15rem;
+      color: #f6fffb;
       opacity: 0;
       animation: fadeIn 2s ease-out forwards;
-      animation-delay: 3.6s;
+      animation-delay: 3.4s;
     }
 
     @keyframes fadeIn {
@@ -142,13 +205,12 @@
       to   { opacity: 1; }
     }
 
-    /* Floating petals for atmosphere */
     .petal {
       position: absolute;
-      width: 14px;
-      height: 24px;
+      width: 16px;
+      height: 26px;
       border-radius: 50% 50% 40% 40%;
-      background: radial-gradient(circle at 30% 30%, #ffe9ff 0, #ffb3ff 60%, #cc52ff 100%);
+      background: radial-gradient(circle at 30% 30%, #e0fff5 0, #9dffd7 60%, #42b48e 100%);
       opacity: 0.9;
       animation: drift 10s linear infinite;
     }
@@ -172,62 +234,92 @@
   <div class="sky-glow"></div>
 
   <div class="scene">
-    <!-- Subtle glowing text behind the orchid letters -->
+    <!-- ORCHIDS THAT GROW UP AND FORM H A L E Y -->
+    <div class="word">
+
+      <!-- H -->
+      <div class="letter">
+        <!-- left vertical -->
+        <div class="orchid" style="--x:0; --y:0; --delay:0.0s;"></div>
+        <div class="orchid" style="--x:0; --y:1; --delay:0.1s;"></div>
+        <div class="orchid" style="--x:0; --y:2; --delay:0.2s;"></div>
+        <div class="orchid" style="--x:0; --y:3; --delay:0.3s;"></div>
+        <div class="orchid" style="--x:0; --y:4; --delay:0.4s;"></div>
+        <!-- right vertical -->
+        <div class="orchid" style="--x:4; --y:0; --delay:0.5s;"></div>
+        <div class="orchid" style="--x:4; --y:1; --delay:0.6s;"></div>
+        <div class="orchid" style="--x:4; --y:2; --delay:0.7s;"></div>
+        <div class="orchid" style="--x:4; --y:3; --delay:0.8s;"></div>
+        <div class="orchid" style="--x:4; --y:4; --delay:0.9s;"></div>
+        <!-- cross bar -->
+        <div class="orchid" style="--x:1; --y:2; --delay:1.0s;"></div>
+        <div class="orchid" style="--x:2; --y:2; --delay:1.1s;"></div>
+        <div class="orchid" style="--x:3; --y:2; --delay:1.2s;"></div>
+      </div>
+
+      <!-- A -->
+      <div class="letter">
+        <div class="orchid" style="--x:2; --y:0; --delay:1.3s;"></div>
+        <div class="orchid" style="--x:1; --y:1; --delay:1.4s;"></div>
+        <div class="orchid" style="--x:3; --y:1; --delay:1.5s;"></div>
+        <div class="orchid" style="--x:1; --y:2; --delay:1.6s;"></div>
+        <div class="orchid" style="--x:3; --y:2; --delay:1.7s;"></div>
+        <div class="orchid" style="--x:1; --y:3; --delay:1.8s;"></div>
+        <div class="orchid" style="--x:3; --y:3; --delay:1.9s;"></div>
+        <div class="orchid" style="--x:1; --y:4; --delay:2.0s;"></div>
+        <div class="orchid" style="--x:3; --y:4; --delay:2.1s;"></div>
+        <!-- cross bar -->
+        <div class="orchid" style="--x:2; --y:2; --delay:2.2s;"></div>
+      </div>
+
+      <!-- L -->
+      <div class="letter">
+        <div class="orchid" style="--x:0; --y:0; --delay:2.3s;"></div>
+        <div class="orchid" style="--x:0; --y:1; --delay:2.4s;"></div>
+        <div class="orchid" style="--x:0; --y:2; --delay:2.5s;"></div>
+        <div class="orchid" style="--x:0; --y:3; --delay:2.6s;"></div>
+        <div class="orchid" style="--x:0; --y:4; --delay:2.7s;"></div>
+        <div class="orchid" style="--x:1; --y:4; --delay:2.8s;"></div>
+        <div class="orchid" style="--x:2; --y:4; --delay:2.9s;"></div>
+        <div class="orchid" style="--x:3; --y:4; --delay:3.0s;"></div>
+      </div>
+
+      <!-- E -->
+      <div class="letter">
+        <div class="orchid" style="--x:0; --y:0; --delay:3.1s;"></div>
+        <div class="orchid" style="--x:0; --y:1; --delay:3.2s;"></div>
+        <div class="orchid" style="--x:0; --y:2; --delay:3.3s;"></div>
+        <div class="orchid" style="--x:0; --y:3; --delay:3.4s;"></div>
+        <div class="orchid" style="--x:0; --y:4; --delay:3.5s;"></div>
+
+        <div class="orchid" style="--x:1; --y:0; --delay:3.6s;"></div>
+        <div class="orchid" style="--x:2; --y:0; --delay:3.7s;"></div>
+        <div class="orchid" style="--x:3; --y:0; --delay:3.8s;"></div>
+
+        <div class="orchid" style="--x:1; --y:2; --delay:3.9s;"></div>
+        <div class="orchid" style="--x:2; --y:2; --delay:4.0s;"></div>
+
+        <div class="orchid" style="--x:1; --y:4; --delay:4.1s;"></div>
+        <div class="orchid" style="--x:2; --y:4; --delay:4.2s;"></div>
+        <div class="orchid" style="--x:3; --y:4; --delay:4.3s;"></div>
+      </div>
+
+      <!-- Y -->
+      <div class="letter">
+        <div class="orchid" style="--x:0; --y:0; --delay:4.4s;"></div>
+        <div class="orchid" style="--x:1; --y:1; --delay:4.5s;"></div>
+        <div class="orchid" style="--x:2; --y:2; --delay:4.6s;"></div>
+        <div class="orchid" style="--x:4; --y:0; --delay:4.7s;"></div>
+        <div class="orchid" style="--x:3; --y:1; --delay:4.8s;"></div>
+        <div class="orchid" style="--x:2; --y:3; --delay:4.9s;"></div>
+        <div class="orchid" style="--x:2; --y:4; --delay:5.0s;"></div>
+      </div>
+    </div>
+
     <div class="name-outline">HALEY</div>
-    <div class="message">Every orchid blooms into your name 💜</div>
+    <div class="message">Every orchid grows up from the grass just to spell your name 💜</div>
 
-    <!-- Grass -->
     <div class="grass"></div>
-
-    <!-- ORCHIDS FORMING "HALEY" -->
-    <!-- H -->
-    <div class="orchid" style="top:36%; left:16%; animation-delay:0.0s;"></div>
-    <div class="orchid" style="top:41%; left:16%; animation-delay:0.1s;"></div>
-    <div class="orchid" style="top:46%; left:16%; animation-delay:0.2s;"></div>
-
-    <div class="orchid" style="top:36%; left:21%; animation-delay:0.3s;"></div>
-    <div class="orchid" style="top:41%; left:21%; animation-delay:0.4s;"></div>
-    <div class="orchid" style="top:46%; left:21%; animation-delay:0.5s;"></div>
-
-    <div class="orchid" style="top:41%; left:18.5%; animation-delay:0.6s;"></div>
-
-    <!-- A -->
-    <div class="orchid" style="top:46%; left:28%; animation-delay:0.7s;"></div>
-    <div class="orchid" style="top:41%; left:27%; animation-delay:0.8s;"></div>
-    <div class="orchid" style="top:36%; left:26%; animation-delay:0.9s;"></div>
-
-    <div class="orchid" style="top:46%; left:32%; animation-delay:1.0s;"></div>
-    <div class="orchid" style="top:41%; left:33%; animation-delay:1.1s;"></div>
-    <div class="orchid" style="top:36%; left:34%; animation-delay:1.2s;"></div>
-
-    <div class="orchid" style="top:41%; left:30%; animation-delay:1.3s;"></div>
-
-    <!-- L -->
-    <div class="orchid" style="top:36%; left:40%; animation-delay:1.4s;"></div>
-    <div class="orchid" style="top:41%; left:40%; animation-delay:1.5s;"></div>
-    <div class="orchid" style="top:46%; left:40%; animation-delay:1.6s;"></div>
-    <div class="orchid" style="top:46%; left:44%; animation-delay:1.7s;"></div>
-
-    <!-- E -->
-    <div class="orchid" style="top:36%; left:50%; animation-delay:1.8s;"></div>
-    <div class="orchid" style="top:41%; left:50%; animation-delay:1.9s;"></div>
-    <div class="orchid" style="top:46%; left:50%; animation-delay:2.0s;"></div>
-
-    <div class="orchid" style="top:36%; left:54%; animation-delay:2.1s;"></div>
-    <div class="orchid" style="top:41%; left:53%; animation-delay:2.2s;"></div>
-    <div class="orchid" style="top:46%; left:54%; animation-delay:2.3s;"></div>
-
-    <!-- Y -->
-    <div class="orchid" style="top:36%; left:60%; animation-delay:2.4s;"></div>
-    <div class="orchid" style="top:41%; left:61.5%; animation-delay:2.5s;"></div>
-    <div class="orchid" style="top:46%; left:63%; animation-delay:2.6s;"></div>
-
-    <div class="orchid" style="top:41%; left:58.5%; animation-delay:2.7s;"></div>
-    <div class="orchid" style="top:46%; left:60%; animation-delay:2.8s;"></div>
-
-    <!-- A few orchids near the grass for extra prettiness -->
-    <div class="orchid" style="bottom:120px; left:10%; top:auto; animation-delay:2.9s;"></div>
-    <div class="orchid" style="bottom:125px; left:80%; top:auto; animation-delay:3.0s;"></div>
 
     <!-- Floating petals -->
     <div class="petal" style="left: 15%; bottom: 40px; animation-delay: 0s;"></div>
