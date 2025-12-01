@@ -78,6 +78,15 @@
       height: 120px;
     }
 
+    .heart {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 160px;
+      height: 140px;
+    }
+
     .orchid {
       --delay: 0s;
       position: absolute;
@@ -96,6 +105,14 @@
       opacity: 0;
       animation: flowerRise 2.4s ease-out forwards;
       animation-delay: var(--delay);
+    }
+
+    .heart-orchid {
+      background:
+        radial-gradient(circle at 30% 30%, #e8ffff 0, #a4ffff 25%, #5df6ff 60%, #14d2dd 100%);
+      box-shadow:
+        0 0 14px rgba(120, 255, 255, 0.9),
+        0 0 26px rgba(120, 255, 255, 0.6);
     }
 
     /* Stem for each orchid */
@@ -228,6 +245,73 @@
         opacity: 0;
       }
     }
+
+    /* ------- Responsive tweaks for phones / small screens ------- */
+    @media (max-width: 768px) {
+      body {
+        font-size: 14px;
+      }
+
+      .word {
+        top: 28%;
+        transform: translateX(-50%) scale(0.8);
+        gap: 18px;
+      }
+
+      .letter {
+        width: 70px;
+        height: 90px;
+      }
+
+      .heart {
+        top: 60%;
+        width: 120px;
+        height: 110px;
+        transform: translateX(-50%) scale(0.85);
+      }
+
+      .orchid {
+        width: 18px;
+        height: 18px;
+        top: calc(var(--y) * 18px);
+        left: calc(var(--x) * 18px);
+      }
+
+      .name-outline {
+        top: 65%;
+        font-size: 2.6rem;
+      }
+
+      .message {
+        top: 74%;
+        font-size: 0.95rem;
+        padding: 0 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .word {
+        top: 26%;
+        transform: translateX(-50%) scale(0.65);
+        gap: 12px;
+      }
+
+      .heart {
+        top: 62%;
+        transform: translateX(-50%) scale(0.7);
+      }
+
+      .name-outline {
+        top: 66%;
+        font-size: 2.2rem;
+      }
+
+      .message {
+        top: 76%;
+        font-size: 0.85rem;
+        padding: 0 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -318,6 +402,20 @@
 
     <div class="name-outline">HALEY</div>
     <div class="message">Every orchid grows up from the grass just to spell your name 💜</div>
+
+    <!-- HEART MADE OF TURQUOISE ORCHIDS -->
+    <div class="heart">
+      <div class="orchid heart-orchid" style="--x:0; --y:2; --delay:5.2s;"></div>
+      <div class="orchid heart-orchid" style="--x:1; --y:3; --delay:5.3s;"></div>
+      <div class="orchid heart-orchid" style="--x:2; --y:4; --delay:5.4s;"></div>
+      <div class="orchid heart-orchid" style="--x:3; --y:4; --delay:5.5s;"></div>
+      <div class="orchid heart-orchid" style="--x:4; --y:3; --delay:5.6s;"></div>
+      <div class="orchid heart-orchid" style="--x:5; --y:2; --delay:5.7s;"></div>
+      <div class="orchid heart-orchid" style="--x:1; --y:1; --delay:5.8s;"></div>
+      <div class="orchid heart-orchid" style="--x:2; --y:0; --delay:5.9s;"></div>
+      <div class="orchid heart-orchid" style="--x:3; --y:0; --delay:6.0s;"></div>
+      <div class="orchid heart-orchid" style="--x:4; --y:1; --delay:6.1s;"></div>
+    </div>
 
     <div class="grass"></div>
 
